@@ -1,0 +1,11 @@
+node_modules/
+.expo/
+dist/
+.DS_Store
+*.log
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+ios/build/
+coverage/

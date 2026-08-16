@@ -1,0 +1,13 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="320dp"
+    android:height="180dp"
+    android:viewportWidth="320"
+    android:viewportHeight="180">
+  <!-- 背景 -->
+  <path android:fillColor="#1a1a2e" android:pathData="M0,0H320V180H0Z" />
+  <!-- 主题色装饰圆（洛雪红） -->
+  <path android:fillColor="#e94560" android:pathData="M44,90a30,30 0 1,0 0.1,0z" />
+  <!-- 装饰横条 -->
+  <path android:fillColor="#e94560" android:pathData="M86,84h150v12h-150z" />
+  <path android:fillColor="#e94560" android:pathData="M86,104h110v12h-110z" />
+</vector>

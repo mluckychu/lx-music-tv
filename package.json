@@ -1,0 +1,28 @@
+{
+  "name": "lx-music-tv",
+  "version": "0.1.0",
+  "private": true,
+  "description": "洛雪音乐 TV 版 (Android TV) — 基于 react-native-tvos 的大屏遥控音乐客户端",
+  "scripts": {
+    "android": "react-native run-android",
+    "android-tv": "react-native run-android --variant=debug",
+    "start": "react-native start",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx test/*.test.ts",
+    "apk:debug": "cd android && ./gradlew assembleDebug",
+    "apk": "cd android && ./gradlew assembleRelease"
+  },
+  "dependencies": {
+    "react": "18.2.0",
+    "react-native": "npm:react-native-tvos@0.73.0-0",
+    "zustand": "^4.5.2"
+  },
+  "devDependencies": {
+    "@react-native/babel-preset": "^0.73.0",
+    "@types/react": "^18.2.45",
+    "babel-plugin-module-resolver": "^5.0.0",
+    "typescript": "^5.3.3",
+    "tsx": "^4.7.0"
+  },
+  "license": "Apache-2.0"
+}
