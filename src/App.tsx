@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import { ScrollView, StatusBar, View } from 'react-native'
+import React, { Component, ErrorInfo, ReactNode, useEffect } from 'react'
+import { ScrollView, StatusBar, Text, View } from 'react-native'
 import { FocusProvider, useFocus } from '@/navigation/FocusContext'
 import RemoteHandler from '@/navigation/RemoteHandler'
 import Sidebar, { NavItem } from '@/components/Sidebar'
@@ -86,10 +86,39 @@ function Shell() {
   )
 }
 
+class ErrorBoundary extends Component<{ children: ReactNode }, { error: Error | null }> {
+  state = { error: null as Error | null }
+
+  static getDerivedStateFromError(error: Error) {
+    return { error }
+  }
+
+  componentDidCatch(error: Error, info: ErrorInfo) {
+    // eslint-disable-next-line no-console
+    console.error('App crashed:', error, info)
+  }
+
+  render() {
+    if (this.state.error) {
+      return (
+        <View style={{ flex: 1, backgroundColor: '#0b0d12', padding: 48, justifyContent: 'center' }}>
+          <Text style={{ color: '#ff6b6b', fontSize: 22, marginBottom: 16 }}>应用启动出错</Text>
+          <Text style={{ color: '#cfd6e4', fontSize: 15, lineHeight: 22 }}>
+            {String(this.state.error?.message || this.state.error)}
+          </Text>
+        </View>
+      )
+    }
+    return this.props.children
+  }
+}
+
 export default function App() {
   return (
-    <FocusProvider>
-      <Shell />
-    </FocusProvider>
+    <ErrorBoundary>
+      <FocusProvider>
+        <Shell />
+      </FocusProvider>
+    </ErrorBoundary>
   )
 }

@@ -14,7 +14,7 @@
  * 并对其真实 wbd.kuwo.cn/api/bd/bang/bang_info 接口完成端到端往返验证。
  */
 import { md5 } from './codec'
-import { Buffer as RnBuffer } from 'react-native-buffer'
+import { Buffer as RnBuffer } from 'buffer'
 
 const Buffer: any = RnBuffer
 
