@@ -1,4 +1,4 @@
-import assert from 'node:assert'
+import assert from 'assert'
 import { findNextFocus, wrapFocus, FocusNode } from '../src/navigation/spatialNav'
 
 // 3x3 网格，单元 100x100，间距 10

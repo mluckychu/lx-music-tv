@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import { ScrollView, Text, View } from 'react-native'
+import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { TV } from '@/theme/tvTheme'
 import { ChannelRow as ChannelRowData, PosterItem } from '@/sources/types'
 import PosterCard from './PosterCard'

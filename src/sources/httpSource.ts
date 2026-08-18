@@ -124,7 +124,7 @@ export class HttpSource implements MusicSource {
     } catch {
       // 源服务未提供 /home 时，回退用排行榜组装基础频道
     }
-    const tops = ['hot', 'new', 'original', 'network']
+    const tops = ['hot', 'new', 'original', 'network'] as const
     const items = tops.map((t) => ({
       id: `top_${t}`,
       title: { hot: '热歌榜', new: '新歌榜', original: '原创榜', network: '网络榜' }[t],

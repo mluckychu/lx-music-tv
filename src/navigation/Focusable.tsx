@@ -98,10 +98,10 @@ export function Focusable({
         setCurrent(id)
         remeasure()
       }}
-      style={({ hovered }) => [
+      style={[
         style,
         { borderRadius: TV.radius.md, transform: [{ scale: 1 }] },
-        focused || hovered ? ring : null,
+        focused ? ring : null,
         focused ? focusStyle : null,
       ]}
     >

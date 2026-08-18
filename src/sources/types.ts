@@ -19,6 +19,8 @@ export interface MusicInfo {
   pic?: string
   /** 可用音质列表 */
   qualitys?: string[]
+  /** 音源私有字段（如酷狗的文件 hash，用于获取播放地址） */
+  hash?: string
 }
 
 export interface MusicUrl {

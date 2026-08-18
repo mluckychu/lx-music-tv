@@ -44,11 +44,10 @@ export function PlayerScreen() {
   const next = usePlayerStore((s) => s.next)
   const prev = usePlayerStore((s) => s.prev)
   const setProgress = usePlayerStore((s) => s.setProgress)
-  const setDemoMode = usePlayerStore((s) => s.setDemoMode)
   const setLyric = usePlayerStore((s) => s.setLyric)
 
   const quality = useSettingStore((s) => s.quality)
-  const [demoMode, setDemo] = useState(true)
+  const [audioUrl, setAudioUrl] = useState('')
 
   // 切换歌曲：拉取真实音频地址与歌词
   useEffect(() => {
@@ -58,40 +57,28 @@ export function PlayerScreen() {
     src
       .getMusicUrl(current, quality)
       .then(({ url }) => {
-        if (!alive) return
-        if (!url) {
-          // 演示源：无真实音频，进入演示播放态（进度走动但不发声）
-          setDemo(true)
-          setDemoMode(true)
-        } else {
-          // 真实音源：此处应把 url 交给音频播放器（如 react-native-video）。
-          // 例如: <Video source={{ uri: url }} ... onProgress={e=>setProgress(e.currentTime)} />
-          setDemo(false)
-          setDemoMode(false)
-        }
+        if (alive) setAudioUrl(url || '')
       })
       .catch(() => {
-        if (alive) {
-          setDemo(true)
-          setDemoMode(true)
-        }
+        if (alive) setAudioUrl('')
       })
     src.getLyric(current).then((l) => alive && setLyric(l))
     return () => {
       alive = false
     }
-  }, [current?.id, current?.source, quality, setDemoMode, setLyric])
+  }, [current?.id, current?.source, quality, setLyric])
 
-  // 演示模式：用计时器推进进度，到尾自动下一首
+  // 进度演示：当前版本尚未接入音频输出模块（react-native-video），
+  // 用计时器推进进度条以便预览整套管遥控流程；真实地址已由 getMusicUrl 解析。
   useEffect(() => {
-    if (!isPlaying || !demoMode) return
+    if (!isPlaying) return
     const t = setInterval(() => {
       const st = usePlayerStore.getState()
       if (st.duration > 0 && st.position + 1 >= st.duration) st.next()
       else st.setProgress(st.position + 1)
     }, 1000)
     return () => clearInterval(t)
-  }, [isPlaying, demoMode, setProgress])
+  }, [isPlaying, setProgress])
 
   if (!current) {
     return (
@@ -134,7 +121,11 @@ export function PlayerScreen() {
           <ControlButton fid="pl_prev" label="⏮" onSelect={prev} />
           <ControlButton fid="pl_toggle" label={isPlaying ? '⏸' : '▶'} onSelect={togglePlay} />
           <ControlButton fid="pl_next" label="⏭" onSelect={next} />
-          {demoMode && (
+          {audioUrl ? (
+            <Text style={{ color: TV.colors.textMuted, fontSize: TV.fontSize.body, marginLeft: TV.spacing(20) }} numberOfLines={1} ellipsizeMode="middle">
+              已解析真实音频地址（播放输出待接入）
+            </Text>
+          ) : (
             <Text style={{ color: TV.colors.textMuted, fontSize: TV.fontSize.body, marginLeft: TV.spacing(20) }}>
               （演示播放，无真实音频）
             </Text>

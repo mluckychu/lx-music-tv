@@ -1,4 +1,4 @@
-import assert from 'node:assert'
+import assert from 'assert'
 import { buildUrl, normalizeSong, extractList } from '../src/sources/httpSource'
 
 // 基础 URL：去除尾部斜杠

@@ -1,28 +1,29 @@
 import { MusicSource } from './types'
 import { MockSource, mockSource } from './mockSource'
-import { HttpSource } from './httpSource'
+import { LxMusicSource } from './lxmusic'
+
+export { configurePlayback } from './lxmusic'
 
 /**
  * 音源管理器：全局单例。
- * 默认使用内置 Mock 源（离线可演示）；在「设置」中填入真实音源地址后，
- * 自动切换为 HttpSource，播放真实音乐。
+ * 默认使用洛雪(lx-music)真源码协议音源（酷我），搜索/排行榜/歌词直连各音源官方接口；
+ * 播放地址由「lx-music-api-server」统一提供（见 SettingsScreen 配置），该模式与洛雪桌面端一致。
+ * 也可在「设置」中切换音源标识(kw/kg/mg)与音质；保留内置演示源(离线)用于无网演示。
  */
 class SourceManager {
-  private http: HttpSource | null = null
-  private active: MusicSource = mockSource
+  private active: MusicSource = new LxMusicSource('kw')
 
   getActive(): MusicSource {
     return this.active
   }
 
   get isRemote(): boolean {
-    return this.active.isRemote
+    return this.active !== mockSource
   }
 
-  /** 配置真实音源地址（来自设置页） */
-  setRemoteSource(baseUrl: string, sourceTag = 'kw') {
-    this.http = new HttpSource({ baseUrl, sourceTag })
-    this.active = this.http
+  /** 切换到洛雪真源码音源（按标识 kw/kg/mg/tx/wy） */
+  setLxSource(tag: string) {
+    this.active = new LxMusicSource(tag)
   }
 
   useMock() {
